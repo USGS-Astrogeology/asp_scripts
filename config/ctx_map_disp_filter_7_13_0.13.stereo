@@ -1,0 +1,16 @@
+alignment-method none
+prefilter-mode 2
+prefilter-kernel-width 1.5
+cost-mode 2
+corr-kernel 25 25
+subpixel-mode 2
+subpixel-kernel 21 21
+
+rm-cleanup-passes 0
+median-filter-size 7
+texture-smooth-size 13
+texture-smooth-scale 0.13
+
+near-universe-radius 0.0
+far-universe-radius 0.0
+

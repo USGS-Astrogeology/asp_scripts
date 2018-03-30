@@ -1,0 +1,18 @@
+# Use SGM
+stereo-algorithm 1
+
+# Assuming input is not map-projected, use affineepipolar alignment
+alignment-method affineepipolar
+
+corr-seed-mode 0
+corr-tile-size 1600
+
+sgm-collar-size 400
+
+cost-mode 4
+corr-kernel 7 7
+xcorr-threshold -1
+
+median-filter-size 5
+texture-smooth-size 15
+texture-smooth-scale 0.15
