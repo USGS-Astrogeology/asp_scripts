@@ -17,22 +17,28 @@ Most of these Bash scripts are wrappers for the various USGS ISIS3 and ASP binar
 These scripts have been developed and tested on recent versions of Fedora, Ubuntu and Scientific Linux. They should work on other flavors of GNU/Linux either natively or in a VM.
 I expect some of the scripts will fail on Mac OS X because the versions of *sed* and *awk* that ship with OS X tend to be older and have different functionality compared to their GNU cousins. A workaround would be to compile GNU versions of these programs from source or install from a package manager like MacPorts or Homebrew.
 
-## Basic Usage ##
-Scripts for processing CTX and HiRISE data are organized into their own subdirectories.  The order in which individual scripts should be run is listed below. Please see comments in the individual scripts for detailed usage information.  Running any of the scripts without arguments will print a usage message.
+## Installation ##
+Git Clone the repository to whatever system(s) you are using and ensure the ctx and hirise folders are included in your PATH.
+
+## Usage ##
+HiRISE and CTX have 3 approximately equivalent steps, with specific usages detailed in the files but detailed below:
 
 ### CTX ###
-1. ctxedr2lev1eo.sh
-2. asp_ctx_lev1eo2dem.sh
-3. asp_ctx_step2_map2dem.sh
-4. pedr_bin4_pc_align.sh
-5. (Estimate max displacement between initial CTX DTM and MOLA PEDR using your favorite GIS software)
-6. asp_ctx_map_ba_pc_align2dem.sh
+1. ctx_pipeline_part_one.sh
+2. (Estimate max displacement between initial CTX DTM and MOLA PEDR using your favorite GIS software)
+3. ctx_pipeline_part_two.sh
 
 ### HiRISE ###
-1. asp_hirise_prep.sh
-2. asp_hirise_map2dem.sh
-3. (Estimate max displacement between initial HiRISE DTM and reference DTM, such as CTX, using your favorite GIS)
-4. asp_hirise_pc_align2dem.sh
+1. hirise_pipeline_part_one.sh
+2. (Estimate max displacement between initial HiRISE DTM and reference DTM, such as CTX, using your favorite GIS)
+3. hirise_pipeline_part_two.sh (possibly using the final DEM.tif from the CTX step as an input)
+
+Note that these workflows can be completed approximately in parallel, only step 3 for hirise (using `hirise_pipeline_part_two.sh`) is dependent on completing the CTX DTM if you wish to
+use a paired CTX DTM for aligning the HiRISE DTM. The other thing to note is that the reference DTM used to align the HiRISE DTM should be a `DEM.tif` file, not the products from dem_geoid which end in `DEM-adj.tif`.
+
+Due to the long run times associated with these scripts, bash traces are enabled in each file (the calls to `set -x/set +x`) to enhance logs to STDOUT.
+Users are encouraged to run commands with `nohup` to save logs, ie: `nohup ctx_pipeline_part_one.sh <args> &`.
+
 
 ## Referencing This Workflow ##
 Please cite one or both of the following LPSC abstracts in any publications that make use of this work or derivatives thereof:
@@ -41,5 +47,7 @@ E-poster: <https://www.lpi.usra.edu/meetings/lpsc2016/eposter/1241.pdf>
 2. Mayer, D. P., "An Improved Workflow for Producing Digital Terrain Models of Mars from CTX Stereo Data Using the NASA Ames Stereo Pipeline," (2018) LPSC XLIX, Abstr. #1604. <https://www.hou.usra.edu/meetings/lpsc2018/pdf/1604.pdf>
 E-poster: <https://www.hou.usra.edu/meetings/lpsc2018/eposter/1604.pdf>
 
+
+Please also cite the AGU 2017 abstract (#284824) "Stratigraphic Mapping of Intra-Crater Layered Deposits in Arabia Terra from High-Resolution Imaging and Stereo Topography" by Andrew M Annex, Kevin W Lewis and Christopher S Edwards
 
 The Ames Stereo Pipeline itself should be cited according to guidelines outlined in the official ASP documentation.
